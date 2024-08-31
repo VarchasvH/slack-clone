@@ -5,6 +5,14 @@ export const create = mutation({
   args: {
     name: v.string(),
   },
+  /**
+   * Creates a new workspace with the given name and associates it with the currently
+   * authenticated user.
+   *
+   * @param args.name The name of the workspace to create.
+   * @returns The ID of the newly created workspace.
+   * @throws Error If the user is not authenticated.
+   */
   handler: async (ctx, args) => {
     const userId = await auth.getUserId(ctx);
 

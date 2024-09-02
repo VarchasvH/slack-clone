@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useCurrentUser } from "@/features/auth/api/useCurrentUser";
 import { useGetWorkspaces } from "@/features/workspaces/api/useGetWorkspaces";
 import { useCreateWorkspace } from "@/features/workspaces/api/useCreateWorkspaces";
 import { useCreateWorkspaceModal } from "@/features/workspaces/store/useCreateWorkspaceModal";
@@ -18,6 +19,7 @@ const WorkspaceSwitcher = () => {
   const router = useRouter();
   const workspaceId = useGetWorkspaceId();
   const [_open, setOpen] = useCreateWorkspaceModal();
+  const { data: user, isLoading: userLoading } = useCurrentUser();
 
   const { data: workspace, isLoading: workspaceLoading } = useGetWorkspace({
     id: workspaceId,
@@ -27,6 +29,11 @@ const WorkspaceSwitcher = () => {
   const filteredWorkspaces = workspaces?.filter(
     (workspace) => workspace?._id !== workspaceId
   );
+  // If the user is not logged in, redirect to the login page
+  if (!user) {
+    router.push("/auth");
+    return null;
+  }
 
   return (
     <DropdownMenu>

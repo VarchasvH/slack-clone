@@ -2,6 +2,13 @@
 import Sidebar from "./Sidebar";
 import Toolbar from "./Toolbar";
 
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
+import WorkspaceSidebar from "./WorkspaceSidebar";
+
 interface WorkspaceLayoutProps {
   children: React.ReactNode;
 }
@@ -9,10 +16,23 @@ interface WorkspaceLayoutProps {
 const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
   return (
     <div className='h-full'>
-      <Toolbar />{" "}
+      <Toolbar />
       <div className='flex h-[calc(100vh-40px)]'>
         <Sidebar />
-        {children}
+        <ResizablePanelGroup
+          direction='horizontal'
+          autoSaveId='slack-workspace-layout'
+        >
+          <ResizablePanel
+            defaultSize={20}
+            minSize={11}
+            className='bg-[#5e2c5f]'
+          >
+            <WorkspaceSidebar />
+          </ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel minSize={20}>{children}</ResizablePanel>
+        </ResizablePanelGroup>
       </div>
     </div>
   );

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useCurrentUser } from "@/features/auth/api/useCurrentUser";
 import { useGetWorkspaces } from "@/features/workspaces/api/useGetWorkspaces";
-import { useCreateWorkspace } from "@/features/workspaces/api/useCreateWorkspaces";
+import { useCreateWorkspace } from "@/features/workspaces/api/useCreateWorkspace";
 import { useCreateWorkspaceModal } from "@/features/workspaces/store/useCreateWorkspaceModal";
 import { Loader, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -41,8 +41,10 @@ const WorkspaceSwitcher = () => {
         <Button className='size-9 relative overflow-hidden bg-[#ABABAD] hover:bg-[#ABABAD]/80 text-slate-800 font-semibold text-xl'>
           {workspaceLoading ? (
             <Loader className='size-5 animate-spin shrink-0' />
+          ) : Array.isArray(workspace) || !workspace?.name ? (
+            "N/A" // Fallback if workspace is an array or doesn't have a name
           ) : (
-            workspace?.name.charAt(0).toUpperCase()
+            workspace.name.charAt(0).toUpperCase()
           )}
         </Button>
       </DropdownMenuTrigger>
@@ -51,7 +53,9 @@ const WorkspaceSwitcher = () => {
           onClick={() => router.push(`/workspace/${workspaceId}`)}
           className='cursor-pointer flex-col items-start justify-start capitalize'
         >
-          {workspace?.name}
+          {Array.isArray(workspace) || !workspace?.name
+            ? "Unnamed Workspace" // Handle the case where workspace is an array or lacks a name
+            : workspace.name}
           <span className='text-xs text-muted-foreground'>
             Active Workspace
           </span>

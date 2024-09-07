@@ -2,8 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, :root{
+html,
+body,
+:root {
   height: 100%;
+}
+
+::-moz-selection {
+  background: #5e2c5f;
+  color: white;
+}
+::-webkit-selection {
+  background: #5e2c5f;
+  color: white;
+}
+::selection {
+  background: #5e2c5f;
+  color: white;
 }
 
 @layer base {

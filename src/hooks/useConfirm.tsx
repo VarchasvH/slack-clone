@@ -49,9 +49,7 @@ export const useConfirm = (
             <Button variant={"outline"} onClick={handleCancel}>
               Cancel
             </Button>
-            <Button variant={"destructive"} onClick={handleConfirm}>
-              Confirm
-            </Button>
+            <Button onClick={handleConfirm}>Confirm</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

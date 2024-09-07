@@ -20,7 +20,7 @@ const WorkspaceSection = ({
   const [on, toggle] = useToggle(true);
   return (
     <div className='flex flex-col mt-3 px-2 '>
-      <div className='flex items-center px-3.5 group bg-white/10 rounded-md mb-1'>
+      <div className='flex items-center px-3.5 group bg-white/10 rounded-md mb-2'>
         <Button
           variant={"transparent"}
           className='p-0.5 text-sm text-[#f9edffcc] shrink-0 size-6'

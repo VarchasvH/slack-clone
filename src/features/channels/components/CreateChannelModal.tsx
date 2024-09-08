@@ -1,22 +1,36 @@
+// ? Library Imports
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+// ? Store imports
+import { useCreateChannelModal } from "../store/useCreateChannelModal";
+
+// ? Components imports
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+
+// ? Api imports
+import { useCreateChannel } from "../api/useCreateChannel";
+
+// ? Hooks imports
+import { useGetWorkspaceId } from "@/hooks/useGetWorkspaceId";
+import { useGetChannelId } from "@/hooks/useGetChannelId";
+
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useCreateChannelModal } from "../store/useCreateChannelModal";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useCreateChannel } from "../api/useCreateChannel";
-import { useGetWorkspaceId } from "@/hooks/useGetWorkspaceId";
+import { toast } from "sonner";
 
 const CreateChannelModal = () => {
   const workspaceId = useGetWorkspaceId();
+  const channelId = useGetChannelId();
   const [open, setOpen] = useCreateChannelModal();
   const [name, setName] = useState("");
   const { mutate, isPending } = useCreateChannel();
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\s+/g, "-").toLowerCase();
@@ -37,8 +51,12 @@ const CreateChannelModal = () => {
       },
       {
         onSuccess: (id) => {
-          // TODO: redirect to new channel
+          router.push(`/workspace/${workspaceId}/channel/${id}`);
           handleClose();
+          toast.success("Channel created!");
+        },
+        onError: () => {
+          toast.error("Failed to create the channel!");
         },
       }
     );

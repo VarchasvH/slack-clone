@@ -11,6 +11,7 @@ import { useGetChannelId } from "@/hooks/useGetChannelId";
 
 // ? Icon imports
 import { Loader, TriangleAlertIcon } from "lucide-react";
+import ChatInput from "./ChatInput";
 
 const ChannelIdPage = () => {
   const channelId = useGetChannelId();
@@ -35,6 +36,8 @@ const ChannelIdPage = () => {
   return (
     <div className='h-full flex flex-col'>
       <ChannelHeader title={channel.name} />
+      <div className='flex-1' />
+      <ChatInput />
     </div>
   );
 };
